@@ -2,15 +2,6 @@ import torch
 import torch.nn as nn
 import torch.optim as optim
 
-# Hyperparameters
-sequence_length = 12
-input_size = 7
-output_size = 1
-num_layers = 2
-d_model = 64
-nhead = 4
-num_epochs = 50
-learning_rate = 0.001
 
 # Transformer Model
 class TransformerModel(nn.Module):
@@ -27,6 +18,7 @@ class TransformerModel(nn.Module):
         x = x.permute(1, 0, 2)  # Transformer expects (seq_len, batch, d_model)
         # print(x.shape)
         x = self.transformer(x)
-        x = x.permute(1, 0, 2)
+        x = x[0]
+        # x = x.permute(1, 0, 2)
         x = self.output_fc(x)
-        return x[:, -1, :]
+        return x

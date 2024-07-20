@@ -24,7 +24,7 @@ class Dataset(torch.utils.data.Dataset):
         df1 = (df1 - MEAN) / STD
         
 
-        y = self.df.iloc[index+self.seq_len+1,0]
+        y = self.df.iloc[index+self.seq_len,0]
         y = (y-MEAN[0])/ STD[0]
         
         return torch.tensor(df1.values,dtype=torch.float32), torch.tensor(y, dtype=torch.float32), MEAN[0],STD[0]
