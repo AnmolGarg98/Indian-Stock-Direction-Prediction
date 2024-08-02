@@ -15,16 +15,17 @@ class Dataset(torch.utils.data.Dataset):
         'Generates one sample of data'
         # Select sample
         df1 = self.df.iloc[index:index+self.seq_len]
-
+        delta = 0.0001
         MEAN = df1.mean()
         STD = df1.std()
         # print(df1.shape,MEAN.shape)
       
         # Normalize the training features
-        df1 = (df1 - MEAN) / STD
+        df1 = (df1 - MEAN) / (STD+delta)
         
 
         y = self.df.iloc[index+self.seq_len,0]
-        y = (y-MEAN[0])/ STD[0]
+      #   print(y.shape,df1[-1,0].shape)
+        y = y>df1.iloc[-1,0]
         
         return torch.tensor(df1.values,dtype=torch.float32), torch.tensor(y, dtype=torch.float32), MEAN[0],STD[0]

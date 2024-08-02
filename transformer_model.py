@@ -12,6 +12,7 @@ class TransformerModel(nn.Module):
         self.encoder_layer = nn.TransformerEncoderLayer(d_model=d_model, nhead=nhead)
         self.transformer = nn.TransformerEncoder(self.encoder_layer, num_layers)
         self.output_fc = nn.Linear(d_model, output_size)
+        self.sigmoid = nn.Sigmoid()
 
     def forward(self, x):
         x = self.input_fc(x)
@@ -20,5 +21,7 @@ class TransformerModel(nn.Module):
         x = self.transformer(x)
         x = x[0]
         # x = x.permute(1, 0, 2)
+        # print(x.shape)
         x = self.output_fc(x)
+        x = self.sigmoid(x)
         return x
